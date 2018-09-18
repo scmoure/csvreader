@@ -4,15 +4,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import com.scmoure.csvreader.AtomicMapper;
+import com.scmoure.csvreader.mapper.exception.MapperException;
 
 class JavaLangMapper implements AtomicMapper {
 	private static final String INSTANTIATOR_METHOD_NAME = "valueOf";
 
-	private Class<?> targetType;
+	private Class<?> targetClass;
 	private Method instantiator;
 
-	JavaLangMapper(Class<?> targetType) {
-		this.targetType = targetType;
+	JavaLangMapper(Class<?> targetClass) {
+		this.targetClass = targetClass;
 		this.instantiator = this.getInstantiator();
 	}
 
@@ -20,10 +21,14 @@ class JavaLangMapper implements AtomicMapper {
 		Method instantiator = null;
 
 		try {
-			instantiator = this.targetType.getDeclaredMethod(INSTANTIATOR_METHOD_NAME, String.class);
-		} catch (NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			instantiator = this.targetClass.getMethod(INSTANTIATOR_METHOD_NAME, String.class);
+		} catch (NoSuchMethodException e) {
+			throw new IllegalArgumentException(
+					"Target class must have a " + INSTANTIATOR_METHOD_NAME
+							+ "(String s) method, like Integer."
+							+ INSTANTIATOR_METHOD_NAME
+							+ "(String s)",
+					e);
 		}
 
 		return instantiator;
@@ -35,9 +40,13 @@ class JavaLangMapper implements AtomicMapper {
 
 		try {
 			value = this.instantiator.invoke(null, rawValue);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			throw new IllegalArgumentException(e.toString());
+		} catch (IllegalAccessException e) {
+			throw new MapperException(
+					"Unaccessible method while mapping value : " + this.instantiator.getName()
+							+ ". Is it a public method?",
+					e.getCause());
 		}
 
 		return value;

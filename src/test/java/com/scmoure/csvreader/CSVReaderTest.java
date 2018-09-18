@@ -1,5 +1,6 @@
 package com.scmoure.csvreader;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -12,17 +13,13 @@ import com.scmoure.csvreader.testutils.DummyClass;
 public class CSVReaderTest {
 
 	@Test
-	public void readTest() {
+	public void readTest() throws URISyntaxException, IOException {
 		URI filePath = null;
-		try {
-			filePath = this.getClass().getResource("/csvreadertest.csv").toURI();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		filePath = this.getClass().getResource("/csvreadertest.csv").toURI();
 		CSVReader reader = new CSVReader.CSVReaderBuilder(filePath, DummyClass.class).build();
 
-		List<DummyClass> results = (List<DummyClass>) reader.read();
+		List<DummyClass> results = null;
+		results = (List<DummyClass>) reader.read();
 
 		Assert.assertNotNull("No lines read", results);
 		Assert.assertEquals("3 lines should be read", 3, results.size());

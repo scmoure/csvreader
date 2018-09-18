@@ -10,6 +10,7 @@ import java.util.stream.IntStream;
 
 import com.scmoure.csvreader.CSVColumn;
 import com.scmoure.csvreader.LineMapper;
+import com.scmoure.csvreader.mapper.exception.MapperException;
 
 class ComplexObjectMapper implements LineMapper {
 
@@ -36,9 +37,19 @@ class ComplexObjectMapper implements LineMapper {
 	private void invokeSetter(Method setter, Object mappedObject, Object fieldValue) {
 		try {
 			setter.invoke(mappedObject, fieldValue);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			throw new MapperException(
+					"A problem occured when invoking setter " + setter.getName()
+							+ " for class "
+							+ mappedObject.getClass().getName()
+							+ " with value "
+							+ fieldValue,
+					e.getCause());
+		} catch (IllegalAccessException e) {
+			throw new MapperException(
+					"Unaccessible method while mapping value : " + setter.getName()
+							+ ". Is it a public method?",
+					e.getCause());
 		}
 	}
 
@@ -46,11 +57,18 @@ class ComplexObjectMapper implements LineMapper {
 		Object targetObject = null;
 		try {
 			targetObject = this.constructor.newInstance();
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (InstantiationException | InvocationTargetException e) {
+			throw new MapperException(
+					"A problem occured when invoking default constructor " + this.constructor.getName()
+							+ " for class "
+							+ this.constructor.getDeclaringClass().getName(),
+					e.getCause());
+		} catch (IllegalAccessException e) {
+			throw new MapperException(
+					"Unaccessible constructor : " + this.constructor.getName() + ". Is it a public method?",
+					e.getCause());
 		}
+
 		return targetObject;
 	}
 
@@ -61,21 +79,30 @@ class ComplexObjectMapper implements LineMapper {
 		private List<Method> fieldSetters;
 		private Constructor<?> constructor;
 
-		ComplexObjectMapperBuilder(Class<?> targetType) {
-			try {
-				this.constructor = targetType.getConstructor();
-			} catch (NoSuchMethodException | SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		ComplexObjectMapperBuilder(Class<?> targetClass) {
+			this.constructor = this.getDefaultConstructor(targetClass);
 			this.objectMappers = new ArrayList<>();
 			this.fieldSetters = new ArrayList<>();
-			for (Field field : targetType.getDeclaredFields()) {
+			for (Field field : targetClass.getDeclaredFields()) {
 				if (field.isAnnotationPresent(CSVColumn.class)) {
 					fieldSetters.add(this.findSetter(field));
 					objectMappers.add(LineMapperFactory.getInstance(field));
 				}
 			}
+		}
+
+		private Constructor<?> getDefaultConstructor(Class<?> targetClass) {
+			Constructor<?> defaultConstructor = null;
+
+			try {
+				defaultConstructor = targetClass.getConstructor();
+			} catch (NoSuchMethodException e) {
+				throw new MapperException(
+						"Could not obtain a default constructor for class " + targetClass.getName(),
+						e.getCause());
+			}
+
+			return defaultConstructor;
 		}
 
 		private Method findSetter(Field field) {
@@ -87,9 +114,14 @@ class ComplexObjectMapper implements LineMapper {
 			String setterName = SETTER_PREFIX.concat(capitalizedFieldName);
 			try {
 				setter = field.getDeclaringClass().getMethod(setterName, argumentType);
-			} catch (NoSuchMethodException | SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				throw new MapperException(
+						"Could not find a setter method " + setterName
+								+ "("
+								+ argumentType.getName()
+								+ " arg) for class "
+								+ field.getDeclaringClass().getName(),
+						e.getCause());
 			}
 
 			return setter;

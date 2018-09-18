@@ -23,24 +23,18 @@ public class CSVReader {
 
 	private String columnDelimiter;
 
-	private CSVReader(CSVReaderBuilder builder) {
+	private CSVReader(CSVReaderBuilder builder) throws IOException {
 		this.filePath = builder.filePath;
 		this.openFileStream();
 		this.columnDelimiter = builder.columnDelimiter;
 		this.lineMapper = builder.lineMapper;
 	}
 
-	private void openFileStream() {
-		try {
-			this.fileStream = Files.lines(Paths.get(this.filePath)).skip(1); // We skip the column headers'
-																				// row
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	private void openFileStream() throws IOException {
+		this.fileStream = Files.lines(Paths.get(this.filePath)).skip(1); // We skip the column headers'
 	}
 
-	public List<?> read() {
+	public List<?> read() throws IOException {
 		this.openFileStream();
 		List<Object> output = fileStream.map(line -> line.split(this.columnDelimiter))
 				.map(this.lineMapper)
@@ -82,7 +76,7 @@ public class CSVReader {
 			return this;
 		}
 
-		public CSVReader build() {
+		public CSVReader build() throws IOException {
 			return new CSVReader(this);
 		}
 	}
