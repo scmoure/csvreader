@@ -9,4 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface CSVColumn {
 	public String name() default "";
+
+	public int startingColumn() default 0;
+
+	public int endingColumn() default 0;
 }

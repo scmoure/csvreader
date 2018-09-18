@@ -1,85 +1,60 @@
 package com.scmoure.csvreader;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import com.scmoure.csvreader.mapper.LineMapperFactory;
 
 public class CSVReader {
 
-	private Class<?> targetType;
+	private URI filePath;
 
-	private String filePath;
+	private LineMapper lineMapper;
 
 	private Stream<String> fileStream;
 
 	private Iterator<String> iterator;
 
-	private String csvDelimiter = ";";
+	private String columnDelimiter;
 
-	private List<CSVFieldSetter> fieldSetters;
-
-	public CSVReader(String filePath, Class<?> targetType)
-			throws NoSuchFieldException, NoSuchMethodException, SecurityException, IOException {
-		this.targetType = targetType;
-		this.filePath = filePath;
-		this.fileStream = Files.lines(Paths.get(this.filePath));
-		this.iterator = fileStream.iterator();
-		this.fieldSetters = this.buildFieldSetters();
+	private CSVReader(CSVReaderBuilder builder) {
+		this.filePath = builder.filePath;
+		this.openFileStream();
+		this.columnDelimiter = builder.columnDelimiter;
+		this.lineMapper = builder.lineMapper;
 	}
 
-	public CSVReader(URL filePath, Class<?> targetType)
-			throws NoSuchFieldException, NoSuchMethodException, SecurityException, IOException {
-		this(filePath.getFile(), targetType);
-	}
-
-	private List<CSVFieldSetter> buildFieldSetters()
-			throws NoSuchFieldException, NoSuchMethodException, SecurityException, IOException {
-		List<CSVFieldSetter> csvFieldSetters = new ArrayList<>();
-
-		List<String> columns = this.getColumns();
-		for (String column : columns) {
-			CSVFieldSetter csvFieldSetter = new CSVFieldSetter(column, this.targetType);
-			csvFieldSetters.add(csvFieldSetter);
+	private void openFileStream() {
+		try {
+			this.fileStream = Files.lines(Paths.get(this.filePath)).skip(1); // We skip the column headers'
+																				// row
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		return csvFieldSetters;
 	}
 
-	private List<String> getColumns() throws IOException {
-		String firstLine = null;
-		if (iterator.hasNext()) {
-			firstLine = iterator.next();
-		}
-
-		return Arrays.asList(firstLine.split(csvDelimiter));
-	}
-
-	public List<?> read() throws NoSuchMethodException, IllegalArgumentException, InvocationTargetException,
-			SecurityException, InstantiationException, IllegalAccessException, IOException {
-
-		List<Object> output = new ArrayList<>();
-		while (this.iterator.hasNext()) {
-			Object mappedObject = this.mapObject(iterator.next());
-			output.add(mappedObject);
-		}
+	public List<?> read() {
+		this.openFileStream();
+		List<Object> output = fileStream.map(line -> line.split(this.columnDelimiter))
+				.map(this.lineMapper)
+				.collect(Collectors.toList());
 
 		this.fileStream.close();
 
 		return output;
 	}
 
-	public Object readRow() throws InstantiationException, IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoSuchMethodException, SecurityException {
+	public Object readRow() {
 		Object mappedObject = null;
 		if (this.iterator.hasNext()) {
-			mappedObject = this.mapObject(iterator.next());
+			mappedObject = this.lineMapper.apply(iterator.next().split(columnDelimiter));
 		} else {
 			this.fileStream.close();
 		}
@@ -87,21 +62,29 @@ public class CSVReader {
 		return mappedObject;
 	}
 
-	private Object mapObject(String inputString) throws InstantiationException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public static class CSVReaderBuilder {
+		private static final String DEFAULT_COLUMN_DELIMITER = ";";
 
-		Object targetObject = targetType.getConstructor().newInstance();
+		private URI filePath;
 
-		String[] values = inputString.split(csvDelimiter);
-		CSVFieldSetter fieldSetter = null;
-		String value = null;
-		for (int i = 0; i < values.length; i++) {
-			value = values[i];
-			fieldSetter = this.fieldSetters.get(i);
-			fieldSetter.setValue(value, targetObject);
+		private LineMapper lineMapper;
+
+		private String columnDelimiter;
+
+		public CSVReaderBuilder(URI filePath, Class<?> targetType) {
+			this.filePath = filePath;
+			this.columnDelimiter = DEFAULT_COLUMN_DELIMITER;
+			this.lineMapper = LineMapperFactory.getInstance(targetType);
 		}
 
-		return targetObject;
+		public CSVReaderBuilder withColumnDelimiter(String columnDelimiter) {
+			this.columnDelimiter = columnDelimiter;
+			return this;
+		}
+
+		public CSVReader build() {
+			return new CSVReader(this);
+		}
 	}
 
 }
