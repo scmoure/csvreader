@@ -5,10 +5,17 @@ import org.junit.Test;
 
 public class JavaLangColumnMapperTest {
 
+	private JavaLangColumnMapper mapper = new JavaLangColumnMapper(Integer.class);;
+
+	@Test
+	public void primitiveTest() {
+		int result = (int) mapper.apply("3");
+
+		Assert.assertEquals("Not the expected value", 3, result);
+	}
+
 	@Test
 	public void wrapperTest() {
-		JavaLangColumnMapper mapper = new JavaLangColumnMapper(Integer.class);
-
 		Integer result = (Integer) mapper.apply("3");
 
 		Assert.assertEquals("Not the expected value", Integer.valueOf(3), result);
@@ -16,8 +23,6 @@ public class JavaLangColumnMapperTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void exceptionTest() {
-		JavaLangColumnMapper mapper = new JavaLangColumnMapper(Integer.class);
-
 		mapper.apply("a");
 
 		Assert.fail("A NumberFormatException should be thrown");
