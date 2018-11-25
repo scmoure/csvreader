@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface CSVObjectArray {
+public @interface CSVObjectList {
 
 	public int startingColumn() default 0;
 
