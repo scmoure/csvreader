@@ -13,9 +13,9 @@ import java.util.stream.IntStream;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.scmoure.csvreader.mapper.LineMapper;
-import com.scmoure.csvreader.mapper.implementation.ComplexObjectMapper;
-import com.scmoure.csvreader.mapper.implementation.ListMapper;
+import com.scmoure.csvreader.mapper.implementation.ObjectLineMapper;
+import com.scmoure.csvreader.mapper.implementation.ListLineMapper;
+import com.scmoure.csvreader.mapper.line.LineMapper;
 import com.scmoure.csvreader.testutils.ComplexCSVObject;
 import com.scmoure.csvreader.testutils.DummyClass;
 
@@ -41,9 +41,9 @@ public class CSVReaderTest {
 
 		List<Integer> columnIndexes = IntStream.rangeClosed(7, 61).boxed().collect(Collectors.toList());
 		LineMapper failuresListMapper =
-				new ListMapper.MapperBuilder(columnIndexes, Float.class).withIndexFilter(i -> i % 2 == 1)
+				new ListLineMapper.MapperBuilder(columnIndexes, Float.class).withIndexFilter(i -> i % 2 == 1)
 						.build();
-		LineMapper mapper = new ComplexObjectMapper.ComplexObjectMapperBuilder(ComplexCSVObject.class)
+		LineMapper mapper = new ObjectLineMapper.ComplexObjectMapperBuilder(ComplexCSVObject.class)
 				.withFieldMapper("dailyValues", failuresListMapper)
 				.build();
 		CSVReader reader =
@@ -85,10 +85,10 @@ public class CSVReaderTest {
 			return values.toArray(rawValues);
 		};
 		LineMapper failuresListMapper =
-				new ListMapper.MapperBuilder(columnIndexes, Float.class).withIndexFilter(i -> i % 2 == 1)
+				new ListLineMapper.MapperBuilder(columnIndexes, Float.class).withIndexFilter(i -> i % 2 == 1)
 						.withPrepareValuesFunction(prepare)
 						.build();
-		LineMapper mapper = new ComplexObjectMapper.ComplexObjectMapperBuilder(ComplexCSVObject.class)
+		LineMapper mapper = new ObjectLineMapper.ComplexObjectMapperBuilder(ComplexCSVObject.class)
 				.withFieldMapper("dailyValues", failuresListMapper)
 				.build();
 		CSVReader reader =

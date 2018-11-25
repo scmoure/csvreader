@@ -5,11 +5,11 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import com.scmoure.csvreader.mapper.LineMapper;
 import com.scmoure.csvreader.mapper.column.ColumnMapperFactory;
+import com.scmoure.csvreader.mapper.line.LineMapper;
 import com.scmoure.csvreader.mapper.column.ColumnMapper;
 
-public class ListMapper implements LineMapper {
+public class ListLineMapper implements LineMapper {
 
 	private ColumnMapper elementMapper;
 
@@ -19,7 +19,7 @@ public class ListMapper implements LineMapper {
 
 	private Function<String, String> rawValueMapper;
 
-	private ListMapper(MapperBuilder builder) {
+	private ListLineMapper(MapperBuilder builder) {
 		this.columnIndexes = builder.columnIndexes;
 		this.prepareValues = builder.prepareValues;
 		this.rawValueMapper = builder.rawValueMapper;
@@ -77,8 +77,8 @@ public class ListMapper implements LineMapper {
 			return this;
 		}
 
-		public ListMapper build() {
-			return new ListMapper(this);
+		public ListLineMapper build() {
+			return new ListLineMapper(this);
 		}
 	}
 }

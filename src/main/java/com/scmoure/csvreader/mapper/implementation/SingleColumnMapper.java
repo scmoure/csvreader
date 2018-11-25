@@ -1,8 +1,8 @@
 package com.scmoure.csvreader.mapper.implementation;
 
-import com.scmoure.csvreader.mapper.LineMapper;
 import com.scmoure.csvreader.mapper.column.ColumnMapper;
 import com.scmoure.csvreader.mapper.column.ColumnMapperFactory;
+import com.scmoure.csvreader.mapper.line.LineMapper;
 
 class SingleColumnMapper implements LineMapper {
 

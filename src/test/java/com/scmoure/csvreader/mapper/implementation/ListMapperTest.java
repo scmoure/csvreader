@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.scmoure.csvreader.mapper.implementation.ListMapper;
+import com.scmoure.csvreader.mapper.implementation.ListLineMapper;
 
 public class ListMapperTest {
 
@@ -14,7 +14,7 @@ public class ListMapperTest {
 	public void mapTest() {
 		String[] values = { "1", "2", "3" };
 		List<Integer> indexes = Arrays.asList(0, 1, 2);
-		ListMapper mapper = new ListMapper.MapperBuilder(indexes, Integer.class).build();
+		ListLineMapper mapper = new ListLineMapper.MapperBuilder(indexes, Integer.class).build();
 
 		List<Integer> result = (List<Integer>) mapper.apply(values);
 

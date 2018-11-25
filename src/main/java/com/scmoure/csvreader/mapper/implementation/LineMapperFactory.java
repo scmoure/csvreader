@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.scmoure.csvreader.annotations.CSVObject;
-import com.scmoure.csvreader.mapper.LineMapper;
+import com.scmoure.csvreader.mapper.line.LineMapper;
 
 public class LineMapperFactory {
 
 	public static LineMapper getInstance(Class<?> targetClass) {
-		return new ComplexObjectMapper.ComplexObjectMapperBuilder(targetClass).build();
+		return new ObjectLineMapper.ComplexObjectMapperBuilder(targetClass).build();
 	}
 
 	static LineMapper getInstance(Field field) {
@@ -31,7 +31,7 @@ public class LineMapperFactory {
 		if (List.class.equals(fieldClass)) {
 			ParameterizedType paremterizedType = (ParameterizedType) field.getGenericType();
 			Class<?> elementType = (Class<?>) paremterizedType.getActualTypeArguments()[0];
-			instance = new ListMapper.MapperBuilder(columns, elementType).build();
+			instance = new ListLineMapper.MapperBuilder(columns, elementType).build();
 //		} else if (Array.class.equals(targetType)) {
 //			instance = new ArrayMapper(targetType, columns);
 		} else if (fieldClass.isPrimitive() || isSimpleType(fieldClass)) {

@@ -9,16 +9,16 @@ import java.util.Map;
 import java.util.Set;
 
 import com.scmoure.csvreader.annotations.CSVObject;
-import com.scmoure.csvreader.mapper.LineMapper;
 import com.scmoure.csvreader.mapper.MapperException;
+import com.scmoure.csvreader.mapper.line.LineMapper;
 
-public class ComplexObjectMapper implements LineMapper {
+public class ObjectLineMapper implements LineMapper {
 
 	private Map<String, LineMapper> objectMappers;
 	private Map<String, Method> fieldSetters;
 	private Constructor<?> constructor;
 
-	private ComplexObjectMapper(ComplexObjectMapperBuilder builder) {
+	private ObjectLineMapper(ComplexObjectMapperBuilder builder) {
 		this.objectMappers = builder.objectMappers;
 		this.fieldSetters = builder.fieldSetters;
 		this.constructor = builder.constructor;
@@ -133,8 +133,8 @@ public class ComplexObjectMapper implements LineMapper {
 			return this;
 		}
 
-		public ComplexObjectMapper build() {
-			return new ComplexObjectMapper(this);
+		public ObjectLineMapper build() {
+			return new ObjectLineMapper(this);
 		}
 	}
 }
