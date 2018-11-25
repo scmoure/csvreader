@@ -1,6 +1,7 @@
-package com.scmoure.csvreader.mapper;
+package com.scmoure.csvreader.mapper.implementation;
 
-import com.scmoure.csvreader.mapper.implementation.AtomicMapperFactory;
+import com.scmoure.csvreader.mapper.AtomicMapper;
+import com.scmoure.csvreader.mapper.LineMapper;
 
 class SingleColumnMapper implements LineMapper {
 

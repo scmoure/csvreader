@@ -1,4 +1,4 @@
-package com.scmoure.csvreader.mapper.exception;
+package com.scmoure.csvreader.mapper;
 
 public class MapperException extends RuntimeException {
 

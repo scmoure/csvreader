@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import com.scmoure.csvreader.mapper.AtomicMapper;
-import com.scmoure.csvreader.mapper.exception.MapperException;
+import com.scmoure.csvreader.mapper.MapperException;
 
 class JavaLangMapper implements AtomicMapper {
 	private static final String INSTANTIATOR_METHOD_NAME = "valueOf";

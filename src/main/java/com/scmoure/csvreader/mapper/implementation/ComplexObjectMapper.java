@@ -10,7 +10,7 @@ import java.util.Set;
 
 import com.scmoure.csvreader.annotations.CSVObject;
 import com.scmoure.csvreader.mapper.LineMapper;
-import com.scmoure.csvreader.mapper.exception.MapperException;
+import com.scmoure.csvreader.mapper.MapperException;
 
 public class ComplexObjectMapper implements LineMapper {
 
