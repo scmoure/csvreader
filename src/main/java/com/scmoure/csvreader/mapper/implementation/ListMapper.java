@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.scmoure.csvreader.mapper.LineMapper;
+import com.scmoure.csvreader.mapper.column.ColumnMapperFactory;
 import com.scmoure.csvreader.mapper.column.ColumnMapper;
 
 public class ListMapper implements LineMapper {
@@ -46,7 +47,7 @@ public class ListMapper implements LineMapper {
 			this.columnIndexes = columnIndexes;
 			this.prepareValues = Function.identity();
 			this.rawValueMapper = Function.identity();
-			this.elementMapper = AtomicMapperFactory.getInstance(targetType);
+			this.elementMapper = ColumnMapperFactory.getInstance(targetType);
 		}
 
 		public MapperBuilder withColumnFilter(Predicate<String> columnFilter) {

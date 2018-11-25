@@ -1,9 +1,6 @@
-package com.scmoure.csvreader.mapper.implementation;
+package com.scmoure.csvreader.mapper.column;
 
-import com.scmoure.csvreader.mapper.column.ColumnMapper;
-import com.scmoure.csvreader.mapper.column.StringColumnMapper;
-
-class AtomicMapperFactory {
+class ColumnMapperFactory {
 
 	static ColumnMapper getInstance(Class<?> targetClass) {
 		ColumnMapper instance = null;

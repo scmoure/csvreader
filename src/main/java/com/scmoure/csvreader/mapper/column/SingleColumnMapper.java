@@ -1,7 +1,6 @@
 package com.scmoure.csvreader.mapper.column;
 
 import com.scmoure.csvreader.mapper.LineMapper;
-import com.scmoure.csvreader.mapper.implementation.AtomicMapperFactory;
 
 class SingleColumnMapper implements LineMapper {
 
@@ -9,7 +8,7 @@ class SingleColumnMapper implements LineMapper {
 	private Integer columnIndex;
 
 	SingleColumnMapper(Class<?> targetClass, Integer columnIndex) {
-		this.mapper = AtomicMapperFactory.getInstance(targetClass);
+		this.mapper = ColumnMapperFactory.getInstance(targetClass);
 		this.columnIndex = columnIndex;
 	}
 
