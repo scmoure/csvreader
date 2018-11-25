@@ -8,12 +8,12 @@ import java.util.stream.IntStream;
 
 import com.scmoure.csvreader.annotations.CSVObject;
 import com.scmoure.csvreader.mapper.line.ListLineMapper.MapperBuilder;
-import com.scmoure.csvreader.mapper.line.ObjectLineMapper.ComplexObjectMapperBuilder;
+import com.scmoure.csvreader.mapper.line.ObjectLineMapper.ObjectLineMapperBuilder;
 
 public class LineMapperFactory {
 
 	public static LineMapper getInstance(Class<?> targetClass) {
-		return new ObjectLineMapper.ComplexObjectMapperBuilder(targetClass).build();
+		return new ObjectLineMapper.ObjectLineMapperBuilder(targetClass).build();
 	}
 
 	static LineMapper getInstance(Field field) {

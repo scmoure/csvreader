@@ -43,7 +43,7 @@ public class CSVReaderTest {
 		LineMapper failuresListMapper =
 				new ListLineMapper.MapperBuilder(columnIndexes, Float.class).withIndexFilter(i -> i % 2 == 1)
 						.build();
-		LineMapper mapper = new ObjectLineMapper.ComplexObjectMapperBuilder(ComplexCSVObject.class)
+		LineMapper mapper = new ObjectLineMapper.ObjectLineMapperBuilder(ComplexCSVObject.class)
 				.withFieldMapper("dailyValues", failuresListMapper)
 				.build();
 		CSVReader reader =
@@ -88,7 +88,7 @@ public class CSVReaderTest {
 				new ListLineMapper.MapperBuilder(columnIndexes, Float.class).withIndexFilter(i -> i % 2 == 1)
 						.withPrepareValuesFunction(prepare)
 						.build();
-		LineMapper mapper = new ObjectLineMapper.ComplexObjectMapperBuilder(ComplexCSVObject.class)
+		LineMapper mapper = new ObjectLineMapper.ObjectLineMapperBuilder(ComplexCSVObject.class)
 				.withFieldMapper("dailyValues", failuresListMapper)
 				.build();
 		CSVReader reader =

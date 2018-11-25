@@ -17,7 +17,7 @@ public class ObjectLineMapper implements LineMapper {
 	private Map<String, Method> fieldSetters;
 	private Constructor<?> constructor;
 
-	private ObjectLineMapper(ComplexObjectMapperBuilder builder) {
+	private ObjectLineMapper(ObjectLineMapperBuilder builder) {
 		this.objectMappers = builder.objectMappers;
 		this.fieldSetters = builder.fieldSetters;
 		this.constructor = builder.constructor;
@@ -72,14 +72,14 @@ public class ObjectLineMapper implements LineMapper {
 		return targetObject;
 	}
 
-	public static class ComplexObjectMapperBuilder {
+	public static class ObjectLineMapperBuilder {
 		private static final String SETTER_PREFIX = "set";
 
 		private Map<String, LineMapper> objectMappers;
 		private Map<String, Method> fieldSetters;
 		private Constructor<?> constructor;
 
-		public ComplexObjectMapperBuilder(Class<?> targetClass) {
+		public ObjectLineMapperBuilder(Class<?> targetClass) {
 			this.constructor = this.getDefaultConstructor(targetClass);
 			this.objectMappers = new HashMap<>();
 			this.fieldSetters = new HashMap<>();
@@ -127,7 +127,7 @@ public class ObjectLineMapper implements LineMapper {
 			return setter;
 		}
 
-		public ComplexObjectMapperBuilder withFieldMapper(String fieldName, LineMapper mapper) {
+		public ObjectLineMapperBuilder withFieldMapper(String fieldName, LineMapper mapper) {
 			this.objectMappers.put(fieldName, mapper);
 			return this;
 		}

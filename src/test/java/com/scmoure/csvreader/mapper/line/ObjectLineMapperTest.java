@@ -3,14 +3,13 @@ package com.scmoure.csvreader.mapper.line;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.scmoure.csvreader.mapper.line.ObjectLineMapper;
 import com.scmoure.csvreader.testutils.DummyClass;
 
 public class ObjectLineMapperTest {
 
 	@Test
 	public void mapTest() {
-		ObjectLineMapper mapper = new ObjectLineMapper.ComplexObjectMapperBuilder(DummyClass.class).build();
+		ObjectLineMapper mapper = new ObjectLineMapper.ObjectLineMapperBuilder(DummyClass.class).build();
 
 		String[] values = { "3", "45", "John Doe", "1", "2", "3", "4", "5" };
 		DummyClass result = (DummyClass) mapper.apply(values);
@@ -23,8 +22,8 @@ public class ObjectLineMapperTest {
 	}
 
 	@Test
-	public void buildMapper() {
-		ObjectLineMapper mapper = new ObjectLineMapper.ComplexObjectMapperBuilder(DummyClass.class).build();
+	public void buildMapperTest() {
+		ObjectLineMapper mapper = new ObjectLineMapper.ObjectLineMapperBuilder(DummyClass.class).build();
 
 		Assert.assertNotNull(mapper);
 	}
