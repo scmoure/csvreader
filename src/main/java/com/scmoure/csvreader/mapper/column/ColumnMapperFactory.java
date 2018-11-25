@@ -1,7 +1,19 @@
 package com.scmoure.csvreader.mapper.column;
 
+/**
+ * Provides functionality to obtain a ColumnMapper implementation
+ * 
+ * @author scmoure
+ *
+ */
 class ColumnMapperFactory {
 
+	/**
+	 * Retrives the proper ColumnMapper implementation for the given target class
+	 * 
+	 * @param targetClass
+	 * @return
+	 */
 	static ColumnMapper getInstance(Class<?> targetClass) {
 		ColumnMapper instance = null;
 
@@ -31,6 +43,12 @@ class ColumnMapperFactory {
 		return instance;
 	}
 
+	/**
+	 * For each primitive type, retrieves the wrapper java.lang class
+	 * 
+	 * @param primitiveType
+	 * @return
+	 */
 	private static Class<?> getPrimitiveWrapper(Class<?> primitiveType) {
 		Class<?> primitiveWrapper = null;
 
