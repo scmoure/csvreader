@@ -3,13 +3,11 @@ package com.scmoure.csvreader.mapper.column;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.scmoure.csvreader.mapper.implementation.JavaLangMapper;
-
 public class JavaLangColumnMapperTest {
 
 	@Test
 	public void wrapperTest() {
-		JavaLangMapper mapper = new JavaLangMapper(Integer.class);
+		JavaLangColumnMapper mapper = new JavaLangColumnMapper(Integer.class);
 
 		Integer result = (Integer) mapper.apply("3");
 
@@ -18,7 +16,7 @@ public class JavaLangColumnMapperTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void exceptionTest() {
-		JavaLangMapper mapper = new JavaLangMapper(Integer.class);
+		JavaLangColumnMapper mapper = new JavaLangColumnMapper(Integer.class);
 
 		mapper.apply("a");
 
