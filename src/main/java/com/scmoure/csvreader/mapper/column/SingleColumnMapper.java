@@ -1,11 +1,12 @@
-package com.scmoure.csvreader.mapper.implementation;
+package com.scmoure.csvreader.mapper.column;
 
-import com.scmoure.csvreader.mapper.AtomicMapper;
+import com.scmoure.csvreader.mapper.ColumnMapper;
 import com.scmoure.csvreader.mapper.LineMapper;
+import com.scmoure.csvreader.mapper.implementation.AtomicMapperFactory;
 
 class SingleColumnMapper implements LineMapper {
 
-	private AtomicMapper mapper;
+	private ColumnMapper mapper;
 	private Integer columnIndex;
 
 	SingleColumnMapper(Class<?> targetClass, Integer columnIndex) {

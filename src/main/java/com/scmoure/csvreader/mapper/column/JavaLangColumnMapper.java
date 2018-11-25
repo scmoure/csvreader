@@ -1,18 +1,18 @@
-package com.scmoure.csvreader.mapper.implementation;
+package com.scmoure.csvreader.mapper.column;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.scmoure.csvreader.mapper.AtomicMapper;
+import com.scmoure.csvreader.mapper.ColumnMapper;
 import com.scmoure.csvreader.mapper.MapperException;
 
-class JavaLangMapper implements AtomicMapper {
+class JavaLangColumnMapper implements ColumnMapper {
 	private static final String INSTANTIATOR_METHOD_NAME = "valueOf";
 
 	private Class<?> targetClass;
 	private Method instantiator;
 
-	JavaLangMapper(Class<?> targetClass) {
+	JavaLangColumnMapper(Class<?> targetClass) {
 		this.targetClass = targetClass;
 		this.instantiator = this.getInstantiator();
 	}

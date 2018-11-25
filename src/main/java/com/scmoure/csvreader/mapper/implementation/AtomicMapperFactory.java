@@ -1,11 +1,12 @@
 package com.scmoure.csvreader.mapper.implementation;
 
-import com.scmoure.csvreader.mapper.AtomicMapper;
+import com.scmoure.csvreader.mapper.ColumnMapper;
+import com.scmoure.csvreader.mapper.column.StringColumnMapper;
 
 class AtomicMapperFactory {
 
-	static AtomicMapper getInstance(Class<?> targetClass) {
-		AtomicMapper instance = null;
+	static ColumnMapper getInstance(Class<?> targetClass) {
+		ColumnMapper instance = null;
 
 		if (targetClass.isPrimitive()) {
 			Class<?> primitiveWrapper = getPrimitiveWrapper(targetClass);
@@ -27,7 +28,7 @@ class AtomicMapperFactory {
 		} else if (Character.class.equals(targetClass)) {
 			instance = new JavaLangMapper(targetClass);
 		} else if (String.class.equals(targetClass)) {
-			instance = new StringMapper();
+			instance = new StringColumnMapper();
 		}
 
 		return instance;
