@@ -1,14 +1,13 @@
 package com.scmoure.csvreader.mapper;
 
-import com.scmoure.csvreader.AtomicMapper;
-import com.scmoure.csvreader.LineMapper;
+import com.scmoure.csvreader.mapper.implementation.AtomicMapperFactory;
 
-class SimpleObjectMapper implements LineMapper {
+class SingleColumnMapper implements LineMapper {
 
 	private AtomicMapper mapper;
 	private Integer columnIndex;
 
-	SimpleObjectMapper(Class<?> targetClass, Integer columnIndex) {
+	SingleColumnMapper(Class<?> targetClass, Integer columnIndex) {
 		this.mapper = AtomicMapperFactory.getInstance(targetClass);
 		this.columnIndex = columnIndex;
 	}

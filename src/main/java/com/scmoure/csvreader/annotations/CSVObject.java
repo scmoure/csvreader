@@ -1,4 +1,4 @@
-package com.scmoure.csvreader;
+package com.scmoure.csvreader.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface CSVColumn {
+public @interface CSVObject {
 	public String name() default "";
 
 	public int startingColumn() default 0;

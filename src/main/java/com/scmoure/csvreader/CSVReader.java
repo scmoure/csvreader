@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.scmoure.csvreader.mapper.LineMapperFactory;
+import com.scmoure.csvreader.mapper.LineMapper;
+import com.scmoure.csvreader.mapper.implementation.LineMapperFactory;
 
 public class CSVReader {
 
@@ -73,6 +74,11 @@ public class CSVReader {
 
 		public CSVReaderBuilder withColumnDelimiter(String columnDelimiter) {
 			this.columnDelimiter = columnDelimiter;
+			return this;
+		}
+
+		public CSVReaderBuilder withMapper(LineMapper mapper) {
+			this.lineMapper = mapper;
 			return this;
 		}
 

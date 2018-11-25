@@ -1,4 +1,4 @@
-package com.scmoure.csvreader;
+package com.scmoure.csvreader.mapper;
 
 import java.util.function.Function;
 

@@ -1,21 +1,21 @@
-package com.scmoure.csvreader.mapper;
+package com.scmoure.csvreader.mapper.implementation;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-import com.scmoure.csvreader.CSVColumn;
-import com.scmoure.csvreader.LineMapper;
+import com.scmoure.csvreader.annotations.CSVObject;
+import com.scmoure.csvreader.mapper.LineMapper;
 import com.scmoure.csvreader.mapper.exception.MapperException;
 
-class ComplexObjectMapper implements LineMapper {
+public class ComplexObjectMapper implements LineMapper {
 
-	private List<LineMapper> objectMappers;
-	private List<Method> fieldSetters;
+	private Map<String, LineMapper> objectMappers;
+	private Map<String, Method> fieldSetters;
 	private Constructor<?> constructor;
 
 	private ComplexObjectMapper(ComplexObjectMapperBuilder builder) {
@@ -27,9 +27,10 @@ class ComplexObjectMapper implements LineMapper {
 	@Override
 	public Object apply(String[] values) {
 		Object mappedObject = this.getInstance();
-		IntStream.range(0, fieldSetters.size()).forEach(i -> {
-			Object fieldValue = this.objectMappers.get(i).apply(values);
-			this.invokeSetter(fieldSetters.get(i), mappedObject, fieldValue);
+		Set<String> fields = fieldSetters.keySet();
+		fields.forEach(field -> {
+			Object fieldValue = this.objectMappers.get(field).apply(values);
+			this.invokeSetter(fieldSetters.get(field), mappedObject, fieldValue);
 		});
 		return mappedObject;
 	}
@@ -75,18 +76,18 @@ class ComplexObjectMapper implements LineMapper {
 	public static class ComplexObjectMapperBuilder {
 		private static final String SETTER_PREFIX = "set";
 
-		private List<LineMapper> objectMappers;
-		private List<Method> fieldSetters;
+		private Map<String, LineMapper> objectMappers;
+		private Map<String, Method> fieldSetters;
 		private Constructor<?> constructor;
 
-		ComplexObjectMapperBuilder(Class<?> targetClass) {
+		public ComplexObjectMapperBuilder(Class<?> targetClass) {
 			this.constructor = this.getDefaultConstructor(targetClass);
-			this.objectMappers = new ArrayList<>();
-			this.fieldSetters = new ArrayList<>();
+			this.objectMappers = new HashMap<>();
+			this.fieldSetters = new HashMap<>();
 			for (Field field : targetClass.getDeclaredFields()) {
-				if (field.isAnnotationPresent(CSVColumn.class)) {
-					fieldSetters.add(this.findSetter(field));
-					objectMappers.add(LineMapperFactory.getInstance(field));
+				if (field.isAnnotationPresent(CSVObject.class)) {
+					fieldSetters.put(field.getName(), this.findSetter(field));
+					objectMappers.put(field.getName(), LineMapperFactory.getInstance(field));
 				}
 			}
 		}
@@ -127,7 +128,12 @@ class ComplexObjectMapper implements LineMapper {
 			return setter;
 		}
 
-		ComplexObjectMapper build() {
+		public ComplexObjectMapperBuilder withFieldMapper(String fieldName, LineMapper mapper) {
+			this.objectMappers.put(fieldName, mapper);
+			return this;
+		}
+
+		public ComplexObjectMapper build() {
 			return new ComplexObjectMapper(this);
 		}
 	}

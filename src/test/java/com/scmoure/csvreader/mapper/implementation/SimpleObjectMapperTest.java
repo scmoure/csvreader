@@ -1,14 +1,16 @@
-package com.scmoure.csvreader.mapper;
+package com.scmoure.csvreader.mapper.implementation;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.scmoure.csvreader.mapper.SingleColumnMapper;
 
 public class SimpleObjectMapperTest {
 
 	@Test
 	public void mapTest() {
 
-		SimpleObjectMapper mapper = new SimpleObjectMapper(Integer.class, 2);
+		SingleColumnMapper mapper = new SingleColumnMapper(Integer.class, 2);
 
 		String[] values = { "1", "2", "3" };
 
@@ -20,7 +22,7 @@ public class SimpleObjectMapperTest {
 	@Test
 	public void mapPrimitiveTest() {
 
-		SimpleObjectMapper mapper = new SimpleObjectMapper(int.class, 2);
+		SingleColumnMapper mapper = new SingleColumnMapper(int.class, 2);
 
 		String[] values = { "1", "2", "3" };
 

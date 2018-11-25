@@ -1,9 +1,9 @@
-package com.scmoure.csvreader.mapper;
+package com.scmoure.csvreader.mapper.implementation;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.scmoure.csvreader.mapper.ComplexObjectMapper;
+import com.scmoure.csvreader.mapper.implementation.ComplexObjectMapper;
 import com.scmoure.csvreader.testutils.DummyClass;
 
 public class ComplexObjectMapperTest {

@@ -1,10 +1,12 @@
-package com.scmoure.csvreader.mapper;
+package com.scmoure.csvreader.mapper.implementation;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.scmoure.csvreader.mapper.implementation.ListMapper;
 
 public class ListMapperTest {
 

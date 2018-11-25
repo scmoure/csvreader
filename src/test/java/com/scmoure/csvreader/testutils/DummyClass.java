@@ -2,20 +2,21 @@ package com.scmoure.csvreader.testutils;
 
 import java.util.List;
 
-import com.scmoure.csvreader.CSVColumn;
+import com.scmoure.csvreader.annotations.CSVColumn;
+import com.scmoure.csvreader.annotations.CSVObjectArray;
 
 public class DummyClass {
 
-	@CSVColumn(startingColumn = 2)
+	@CSVColumn(column = 2)
 	private String name;
 
-	@CSVColumn(startingColumn = 1)
+	@CSVColumn(column = 1)
 	private Integer age;
 
-	@CSVColumn(startingColumn = 0)
+	@CSVColumn(column = 0)
 	private int sons;
 
-	@CSVColumn(startingColumn = 3, endingColumn = 7)
+	@CSVObjectArray(startingColumn = 3, endingColumn = 7)
 	private List<Integer> failures;
 
 	public String getName() {

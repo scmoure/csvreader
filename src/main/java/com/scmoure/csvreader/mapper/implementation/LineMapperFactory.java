@@ -1,4 +1,4 @@
-package com.scmoure.csvreader.mapper;
+package com.scmoure.csvreader.mapper.implementation;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import com.scmoure.csvreader.CSVColumn;
-import com.scmoure.csvreader.LineMapper;
+import com.scmoure.csvreader.annotations.CSVObject;
+import com.scmoure.csvreader.mapper.LineMapper;
+import com.scmoure.csvreader.mapper.SingleColumnMapper;
 
 public class LineMapperFactory {
 
@@ -18,8 +19,8 @@ public class LineMapperFactory {
 	static LineMapper getInstance(Field field) {
 		LineMapper instance = null;
 
-		int startingColumn = field.getAnnotation(CSVColumn.class).startingColumn();
-		int endingColumn = field.getAnnotation(CSVColumn.class).endingColumn();
+		int startingColumn = field.getAnnotation(CSVObject.class).startingColumn();
+		int endingColumn = field.getAnnotation(CSVObject.class).endingColumn();
 		if (endingColumn < startingColumn) {
 			endingColumn = startingColumn;
 		}
@@ -35,7 +36,7 @@ public class LineMapperFactory {
 //		} else if (Array.class.equals(targetType)) {
 //			instance = new ArrayMapper(targetType, columns);
 		} else if (fieldClass.isPrimitive() || isSimpleType(fieldClass)) {
-			instance = new SimpleObjectMapper(fieldClass, columns.get(0));
+			instance = new SingleColumnMapper(fieldClass, columns.get(0));
 		} else {
 			instance = getInstance(fieldClass);
 		}

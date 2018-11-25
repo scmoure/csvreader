@@ -1,9 +1,9 @@
-package com.scmoure.csvreader.mapper;
+package com.scmoure.csvreader.mapper.implementation;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.scmoure.csvreader.AtomicMapper;
+import com.scmoure.csvreader.mapper.AtomicMapper;
 import com.scmoure.csvreader.mapper.exception.MapperException;
 
 class JavaLangMapper implements AtomicMapper {
@@ -36,8 +36,11 @@ class JavaLangMapper implements AtomicMapper {
 
 	@Override
 	public Object apply(String rawValue) {
-		Object value = null;
+		if (rawValue == null) {
+			return null;
+		}
 
+		Object value = null;
 		try {
 			value = this.instantiator.invoke(null, rawValue);
 		} catch (InvocationTargetException e) {

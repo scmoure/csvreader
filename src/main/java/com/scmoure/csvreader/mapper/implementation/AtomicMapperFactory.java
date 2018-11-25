@@ -1,6 +1,6 @@
-package com.scmoure.csvreader.mapper;
+package com.scmoure.csvreader.mapper.implementation;
 
-import com.scmoure.csvreader.AtomicMapper;
+import com.scmoure.csvreader.mapper.AtomicMapper;
 
 class AtomicMapperFactory {
 
