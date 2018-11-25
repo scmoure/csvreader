@@ -3,13 +3,12 @@ package com.scmoure.csvreader.mapper.column;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.scmoure.csvreader.mapper.column.StringColumnMapper;
-
 public class StringColumnMapperTest {
+
+	private StringColumnMapper mapper = new StringColumnMapper();
 
 	@Test
 	public void mapTest() {
-		StringColumnMapper mapper = new StringColumnMapper();
 
 		String result = mapper.apply("test");
 
