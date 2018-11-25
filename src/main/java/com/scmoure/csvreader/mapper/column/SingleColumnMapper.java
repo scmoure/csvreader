@@ -1,6 +1,5 @@
 package com.scmoure.csvreader.mapper.column;
 
-import com.scmoure.csvreader.mapper.ColumnMapper;
 import com.scmoure.csvreader.mapper.LineMapper;
 import com.scmoure.csvreader.mapper.implementation.AtomicMapperFactory;
 

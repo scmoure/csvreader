@@ -3,7 +3,6 @@ package com.scmoure.csvreader.mapper.column;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import com.scmoure.csvreader.mapper.ColumnMapper;
 import com.scmoure.csvreader.mapper.MapperException;
 
 class JavaLangColumnMapper implements ColumnMapper {
