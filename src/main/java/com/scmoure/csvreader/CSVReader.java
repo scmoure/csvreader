@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.scmoure.csvreader.mapper.implementation.LineMapperFactory;
 import com.scmoure.csvreader.mapper.line.LineMapper;
+import com.scmoure.csvreader.mapper.line.LineMapperFactory;
 
 public class CSVReader {
 

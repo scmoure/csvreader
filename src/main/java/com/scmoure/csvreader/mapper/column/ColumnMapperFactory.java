@@ -6,7 +6,7 @@ package com.scmoure.csvreader.mapper.column;
  * @author scmoure
  *
  */
-class ColumnMapperFactory {
+public class ColumnMapperFactory {
 
 	/**
 	 * Retrives the proper ColumnMapper implementation for the given target class
@@ -14,7 +14,7 @@ class ColumnMapperFactory {
 	 * @param targetClass
 	 * @return
 	 */
-	static ColumnMapper getInstance(Class<?> targetClass) {
+	public static ColumnMapper getInstance(Class<?> targetClass) {
 		ColumnMapper instance = null;
 
 		if (targetClass.isPrimitive()) {

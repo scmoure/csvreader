@@ -1,15 +1,14 @@
-package com.scmoure.csvreader.mapper.implementation;
+package com.scmoure.csvreader.mapper.line;
 
 import com.scmoure.csvreader.mapper.column.ColumnMapper;
 import com.scmoure.csvreader.mapper.column.ColumnMapperFactory;
-import com.scmoure.csvreader.mapper.line.LineMapper;
 
-class SingleColumnMapper implements LineMapper {
+class SingleColumnLineMapper implements LineMapper {
 
 	private ColumnMapper mapper;
 	private Integer columnIndex;
 
-	SingleColumnMapper(Class<?> targetClass, Integer columnIndex) {
+	SingleColumnLineMapper(Class<?> targetClass, Integer columnIndex) {
 		this.mapper = ColumnMapperFactory.getInstance(targetClass);
 		this.columnIndex = columnIndex;
 	}

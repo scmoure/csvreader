@@ -1,12 +1,12 @@
-package com.scmoure.csvreader.mapper.implementation;
+package com.scmoure.csvreader.mapper.line;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.scmoure.csvreader.mapper.implementation.ObjectLineMapper;
+import com.scmoure.csvreader.mapper.line.ObjectLineMapper;
 import com.scmoure.csvreader.testutils.DummyClass;
 
-public class ComplexObjectMapperTest {
+public class ObjectLineMapperTest {
 
 	@Test
 	public void mapTest() {

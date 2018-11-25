@@ -13,9 +13,9 @@ import java.util.stream.IntStream;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.scmoure.csvreader.mapper.implementation.ObjectLineMapper;
-import com.scmoure.csvreader.mapper.implementation.ListLineMapper;
 import com.scmoure.csvreader.mapper.line.LineMapper;
+import com.scmoure.csvreader.mapper.line.ListLineMapper;
+import com.scmoure.csvreader.mapper.line.ObjectLineMapper;
 import com.scmoure.csvreader.testutils.ComplexCSVObject;
 import com.scmoure.csvreader.testutils.DummyClass;
 

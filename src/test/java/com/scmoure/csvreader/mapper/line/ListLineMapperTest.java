@@ -1,4 +1,4 @@
-package com.scmoure.csvreader.mapper.implementation;
+package com.scmoure.csvreader.mapper.line;
 
 import java.util.Arrays;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.scmoure.csvreader.mapper.implementation.ListLineMapper;
+import com.scmoure.csvreader.mapper.line.ListLineMapper;
 
-public class ListMapperTest {
+public class ListLineMapperTest {
 
 	@Test
 	public void mapTest() {

@@ -1,4 +1,4 @@
-package com.scmoure.csvreader.mapper.implementation;
+package com.scmoure.csvreader.mapper.line;
 
 import java.util.List;
 import java.util.function.Function;
@@ -6,7 +6,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.scmoure.csvreader.mapper.column.ColumnMapperFactory;
-import com.scmoure.csvreader.mapper.line.LineMapper;
 import com.scmoure.csvreader.mapper.column.ColumnMapper;
 
 public class ListLineMapper implements LineMapper {

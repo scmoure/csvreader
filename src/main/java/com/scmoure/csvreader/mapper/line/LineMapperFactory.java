@@ -1,4 +1,4 @@
-package com.scmoure.csvreader.mapper.implementation;
+package com.scmoure.csvreader.mapper.line;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -7,7 +7,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.scmoure.csvreader.annotations.CSVObject;
-import com.scmoure.csvreader.mapper.line.LineMapper;
+import com.scmoure.csvreader.mapper.line.ListLineMapper.MapperBuilder;
+import com.scmoure.csvreader.mapper.line.ObjectLineMapper.ComplexObjectMapperBuilder;
 
 public class LineMapperFactory {
 
@@ -35,7 +36,7 @@ public class LineMapperFactory {
 //		} else if (Array.class.equals(targetType)) {
 //			instance = new ArrayMapper(targetType, columns);
 		} else if (fieldClass.isPrimitive() || isSimpleType(fieldClass)) {
-			instance = new SingleColumnMapper(fieldClass, columns.get(0));
+			instance = new SingleColumnLineMapper(fieldClass, columns.get(0));
 		} else {
 			instance = getInstance(fieldClass);
 		}

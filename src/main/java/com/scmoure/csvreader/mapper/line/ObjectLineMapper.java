@@ -1,4 +1,4 @@
-package com.scmoure.csvreader.mapper.implementation;
+package com.scmoure.csvreader.mapper.line;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -10,7 +10,6 @@ import java.util.Set;
 
 import com.scmoure.csvreader.annotations.CSVObject;
 import com.scmoure.csvreader.mapper.MapperException;
-import com.scmoure.csvreader.mapper.line.LineMapper;
 
 public class ObjectLineMapper implements LineMapper {
 

@@ -1,11 +1,11 @@
-package com.scmoure.csvreader.mapper.implementation;
+package com.scmoure.csvreader.mapper.column;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import com.scmoure.csvreader.mapper.column.StringColumnMapper;
 
-public class StringMapperTest {
+public class StringColumnMapperTest {
 
 	@Test
 	public void mapTest() {
