@@ -8,7 +8,6 @@ import java.util.stream.IntStream;
 
 import com.scmoure.csvreader.annotations.CSVObject;
 import com.scmoure.csvreader.mapper.LineMapper;
-import com.scmoure.csvreader.mapper.column.SingleColumnMapper;
 
 public class LineMapperFactory {
 

@@ -7,23 +7,23 @@ class ColumnMapperFactory {
 
 		if (targetClass.isPrimitive()) {
 			Class<?> primitiveWrapper = getPrimitiveWrapper(targetClass);
-			instance = new JavaLangMapper(primitiveWrapper);
+			instance = new JavaLangColumnMapper(primitiveWrapper);
 		} else if (Boolean.class.equals(targetClass)) {
-			instance = new JavaLangMapper(targetClass);
+			instance = new JavaLangColumnMapper(targetClass);
 		} else if (Integer.class.equals(targetClass)) {
-			instance = new JavaLangMapper(targetClass);
+			instance = new JavaLangColumnMapper(targetClass);
 		} else if (Long.class.equals(targetClass)) {
-			instance = new JavaLangMapper(targetClass);
+			instance = new JavaLangColumnMapper(targetClass);
 		} else if (Float.class.equals(targetClass)) {
-			instance = new JavaLangMapper(targetClass);
+			instance = new JavaLangColumnMapper(targetClass);
 		} else if (Double.class.equals(targetClass)) {
-			instance = new JavaLangMapper(targetClass);
+			instance = new JavaLangColumnMapper(targetClass);
 		} else if (Byte.class.equals(targetClass)) {
-			instance = new JavaLangMapper(targetClass);
+			instance = new JavaLangColumnMapper(targetClass);
 		} else if (Short.class.equals(targetClass)) {
-			instance = new JavaLangMapper(targetClass);
+			instance = new JavaLangColumnMapper(targetClass);
 		} else if (Character.class.equals(targetClass)) {
-			instance = new JavaLangMapper(targetClass);
+			instance = new JavaLangColumnMapper(targetClass);
 		} else if (String.class.equals(targetClass)) {
 			instance = new StringColumnMapper();
 		}

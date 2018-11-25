@@ -5,7 +5,20 @@ import java.lang.reflect.Method;
 
 import com.scmoure.csvreader.mapper.MapperException;
 
+/**
+ * Implementation of ColumnMapper for the java.lang package objects as
+ * {@link Integer}, {@link Long}, {@link Float}, {@link Double},
+ * {@link Boolean}, and the primitive types as well
+ * 
+ * @author scmoure
+ *
+ */
 class JavaLangColumnMapper implements ColumnMapper {
+
+	/**
+	 * The name of the method that should be called in order to obtain an instance
+	 * of the target class
+	 */
 	private static final String INSTANTIATOR_METHOD_NAME = "valueOf";
 
 	private Class<?> targetClass;
@@ -16,6 +29,11 @@ class JavaLangColumnMapper implements ColumnMapper {
 		this.instantiator = this.getInstantiator();
 	}
 
+	/**
+	 * Retrieves the instantiator method of the target class
+	 * 
+	 * @return
+	 */
 	private Method getInstantiator() {
 		Method instantiator = null;
 
