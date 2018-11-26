@@ -6,31 +6,28 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import com.scmoure.csvreader.annotations.CSVObject;
 import com.scmoure.csvreader.mapper.MapperException;
 
 public class ObjectLineMapper implements LineMapper {
 
-	private Map<String, LineMapper> objectMappers;
-	private Map<String, Method> fieldSetters;
+	private Map<Method, LineMapper> fieldSetterToMapper;
 	private Constructor<?> constructor;
 
 	private ObjectLineMapper(ObjectLineMapperBuilder builder) {
-		this.objectMappers = builder.objectMappers;
-		this.fieldSetters = builder.fieldSetters;
+		this.fieldSetterToMapper = builder.fieldSetterToMapper;
 		this.constructor = builder.constructor;
 	}
 
 	@Override
 	public Object apply(String[] values) {
 		Object mappedObject = this.getInstance();
-		Set<String> fields = fieldSetters.keySet();
-		fields.forEach(field -> {
-			Object fieldValue = this.objectMappers.get(field).apply(values);
-			this.invokeSetter(fieldSetters.get(field), mappedObject, fieldValue);
-		});
+
+		for (Method fieldSetter : fieldSetterToMapper.keySet()) {
+			Object fieldValue = this.fieldSetterToMapper.get(fieldSetter);
+			this.invokeSetter(fieldSetter, mappedObject, fieldValue);
+		}
+
 		return mappedObject;
 	}
 
@@ -75,18 +72,16 @@ public class ObjectLineMapper implements LineMapper {
 	public static class ObjectLineMapperBuilder {
 		private static final String SETTER_PREFIX = "set";
 
-		private Map<String, LineMapper> objectMappers;
-		private Map<String, Method> fieldSetters;
+		private Map<Method, LineMapper> fieldSetterToMapper;
 		private Constructor<?> constructor;
 
 		public ObjectLineMapperBuilder(Class<?> targetClass) {
 			this.constructor = this.getDefaultConstructor(targetClass);
-			this.objectMappers = new HashMap<>();
-			this.fieldSetters = new HashMap<>();
+			this.fieldSetterToMapper = new HashMap<>();
 			for (Field field : targetClass.getDeclaredFields()) {
-				if (field.isAnnotationPresent(CSVObject.class)) {
-					fieldSetters.put(field.getName(), this.findSetter(field));
-					objectMappers.put(field.getName(), LineMapperFactory.getInstance(field));
+				LineMapper mapper = LineMapperFactory.getInstance(field);
+				if (mapper != null) {
+					this.fieldSetterToMapper.put(this.findSetter(field), mapper);
 				}
 			}
 		}
@@ -128,7 +123,7 @@ public class ObjectLineMapper implements LineMapper {
 		}
 
 		public ObjectLineMapperBuilder withFieldMapper(String fieldName, LineMapper mapper) {
-			this.objectMappers.put(fieldName, mapper);
+//			this.objectMappers.put(fieldName, mapper);
 			return this;
 		}
 
