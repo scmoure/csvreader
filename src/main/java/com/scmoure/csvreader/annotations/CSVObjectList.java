@@ -13,4 +13,6 @@ public @interface CSVObjectList {
 
 	public int endingColumn() default 0;
 
+	public int cycle() default 1;
+
 }

@@ -10,6 +10,11 @@ class SingleColumnLineMapper implements LineMapper {
 	private ColumnMapper mapper;
 	private Integer columnIndex;
 
+	SingleColumnLineMapper(Class<?> targetClass) {
+		this.mapper = ColumnMapperFactory.getInstance(targetClass);
+		this.columnIndex = 0;
+	}
+
 	SingleColumnLineMapper(Class<?> targetClass, Integer columnIndex) {
 		this.mapper = ColumnMapperFactory.getInstance(targetClass);
 		this.columnIndex = columnIndex;
