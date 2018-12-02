@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.scmoure.csvreader.mapper.MapperException;
@@ -13,18 +14,21 @@ public class ObjectLineMapper implements LineMapper {
 
 	private Map<Method, LineMapper> fieldSetterToMapper;
 	private Constructor<?> constructor;
+	private int columnOffset;
 
 	private ObjectLineMapper(ObjectLineMapperBuilder builder) {
 		this.fieldSetterToMapper = builder.fieldSetterToMapper;
 		this.constructor = builder.constructor;
+		this.columnOffset = builder.columnOffset;
 	}
 
 	@Override
-	public Object apply(String[] values) {
+	public Object apply(List<String> values) {
 		Object mappedObject = this.getInstance();
 
 		for (Method fieldSetter : fieldSetterToMapper.keySet()) {
-			Object fieldValue = this.fieldSetterToMapper.get(fieldSetter);
+			Object fieldValue = this.fieldSetterToMapper.get(fieldSetter)
+					.apply(values.subList(columnOffset, values.size()));
 			this.invokeSetter(fieldSetter, mappedObject, fieldValue);
 		}
 
@@ -74,8 +78,10 @@ public class ObjectLineMapper implements LineMapper {
 
 		private Map<Method, LineMapper> fieldSetterToMapper;
 		private Constructor<?> constructor;
+		private int columnOffset;
 
 		public ObjectLineMapperBuilder(Class<?> targetClass) {
+			this.columnOffset = 0;
 			this.constructor = this.getDefaultConstructor(targetClass);
 			this.fieldSetterToMapper = new HashMap<>();
 			for (Field field : targetClass.getDeclaredFields()) {
@@ -120,6 +126,11 @@ public class ObjectLineMapper implements LineMapper {
 			}
 
 			return setter;
+		}
+
+		public ObjectLineMapperBuilder columnOffset(int offset) {
+			this.columnOffset = offset;
+			return this;
 		}
 
 		public ObjectLineMapperBuilder withFieldMapper(String fieldName, LineMapper mapper) {

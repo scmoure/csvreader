@@ -5,8 +5,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import com.scmoure.csvreader.mapper.column.ColumnMapperFactory;
 import com.scmoure.csvreader.mapper.column.ColumnMapper;
+import com.scmoure.csvreader.mapper.column.ColumnMapperFactory;
 
 public class ListLineMapper implements LineMapper {
 
@@ -14,7 +14,7 @@ public class ListLineMapper implements LineMapper {
 
 	private List<Integer> columnIndexes;
 
-	private Function<String[], String[]> prepareValues;
+	private Function<List<String>, List<String>> prepareValues;
 
 	private Function<String, String> rawValueMapper;
 
@@ -26,10 +26,10 @@ public class ListLineMapper implements LineMapper {
 	}
 
 	@Override
-	public List<?> apply(String[] rawValues) {
-		final String[] values = prepareValues.apply(rawValues);
+	public List<?> apply(List<String> rawValues) {
+		final List<String> values = prepareValues.apply(rawValues);
 		return columnIndexes.stream()
-				.map(i -> values[i])
+				.map(i -> values.get(i))
 				.map(rawValueMapper)
 				.map(v -> elementMapper.apply(v))
 				.collect(Collectors.toList());
@@ -38,7 +38,7 @@ public class ListLineMapper implements LineMapper {
 	public static class MapperBuilder {
 		private List<String> columns;
 		private List<Integer> columnIndexes;
-		private Function<String[], String[]> prepareValues;
+		private Function<List<String>, List<String>> prepareValues;
 		private Function<String, String> rawValueMapper;
 		private ColumnMapper elementMapper;
 
@@ -66,7 +66,7 @@ public class ListLineMapper implements LineMapper {
 			return this;
 		}
 
-		public MapperBuilder withPrepareValuesFunction(Function<String[], String[]> prepareValues) {
+		public MapperBuilder withPrepareValuesFunction(Function<List<String>, List<String>> prepareValues) {
 			this.prepareValues = prepareValues;
 			return this;
 		}

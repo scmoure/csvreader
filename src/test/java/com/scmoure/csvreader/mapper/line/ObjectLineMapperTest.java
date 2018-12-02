@@ -1,29 +1,35 @@
 package com.scmoure.csvreader.mapper.line;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.scmoure.csvreader.testutils.DummyClass;
+import com.scmoure.csvreader.testutils.TestClass;
 
 public class ObjectLineMapperTest {
 
 	@Test
 	public void mapTest() {
-		ObjectLineMapper mapper = new ObjectLineMapper.ObjectLineMapperBuilder(DummyClass.class).build();
+		ObjectLineMapper mapper = new ObjectLineMapper.ObjectLineMapperBuilder(TestClass.class).build();
 
-		String[] values = { "3", "45", "John Doe", "1", "2", "3", "4", "5" };
-		DummyClass result = (DummyClass) mapper.apply(values);
+		List<String> values = Arrays.asList("outer object name", "10", "inner object name", "45");
+		TestClass mappedObject = (TestClass) mapper.apply(values);
 
-		Assert.assertNotNull("Result object is null", result);
-		Assert.assertNotNull("Null field : name", result.getName());
-		Assert.assertNotNull("Null field : age", result.getAge());
-		Assert.assertNotNull("Null field : sons", result.getSons());
-		Assert.assertNotNull("Null field : failures", result.getFailures());
+		Assert.assertNotNull("Result object is null", mappedObject);
+		Assert.assertNotNull("Null field : name", mappedObject.getName());
+		Assert.assertNotNull("Null field : age", mappedObject.getAge());
+		Assert.assertNotNull("Null field : innerObject", mappedObject.getInnerObject());
+		Assert.assertNotNull("Null field : innerObject.innerName",
+				mappedObject.getInnerObject().getInnerName());
+		Assert.assertNotNull("Null field : innerObject.innerAge",
+				mappedObject.getInnerObject().getInnerAge());
 	}
 
 	@Test
 	public void buildMapperTest() {
-		ObjectLineMapper mapper = new ObjectLineMapper.ObjectLineMapperBuilder(DummyClass.class).build();
+		ObjectLineMapper mapper = new ObjectLineMapper.ObjectLineMapperBuilder(TestClass.class).build();
 
 		Assert.assertNotNull(mapper);
 	}

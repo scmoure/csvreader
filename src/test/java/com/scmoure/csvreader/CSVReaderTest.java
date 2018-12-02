@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -17,7 +16,7 @@ import com.scmoure.csvreader.mapper.line.LineMapper;
 import com.scmoure.csvreader.mapper.line.ListLineMapper;
 import com.scmoure.csvreader.mapper.line.ObjectLineMapper;
 import com.scmoure.csvreader.testutils.ComplexCSVObject;
-import com.scmoure.csvreader.testutils.DummyClass;
+import com.scmoure.csvreader.testutils.TestClass;
 
 public class CSVReaderTest {
 
@@ -25,10 +24,10 @@ public class CSVReaderTest {
 	public void readTest() throws URISyntaxException, IOException {
 		URI filePath = null;
 		filePath = this.getClass().getResource("/csvreadertest.csv").toURI();
-		CSVReader reader = new CSVReader.CSVReaderBuilder(filePath, DummyClass.class).build();
+		CSVReader reader = new CSVReader.CSVReaderBuilder(filePath, TestClass.class).build();
 
-		List<DummyClass> results = null;
-		results = (List<DummyClass>) reader.read();
+		List<TestClass> results = null;
+		results = (List<TestClass>) reader.read();
 
 		Assert.assertNotNull("No lines read", results);
 		Assert.assertEquals("3 lines should be read", 3, results.size());
@@ -63,14 +62,14 @@ public class CSVReaderTest {
 
 		List<Integer> columnIndexes =
 				IntStream.rangeClosed(7, 67).boxed().filter(i -> i % 2 == 1).collect(Collectors.toList());
-		Function<String[], String[]> prepare = rawValues -> {
-			List<String> values = new ArrayList<>(Arrays.asList(rawValues));
+		Function<List<String>, List<String>> prepare = rawValues -> {
+			List<String> values = new ArrayList<>(rawValues);
 			for (Integer i : columnIndexes) {
 				String rawValue = null;
 				String control = null;
 				try {
-					rawValue = rawValues[i];
-					control = rawValues[i + 1];
+					rawValue = rawValues.get(i);
+					control = rawValues.get(i + 1);
 					if (!"V".equals(control)) {
 						rawValue = null;
 					}
@@ -82,7 +81,7 @@ public class CSVReaderTest {
 					values.set(i, rawValue);
 				}
 			}
-			return values.toArray(rawValues);
+			return values;
 		};
 		LineMapper failuresListMapper =
 				new ListLineMapper.MapperBuilder(columnIndexes, Float.class).withIndexFilter(i -> i % 2 == 1)

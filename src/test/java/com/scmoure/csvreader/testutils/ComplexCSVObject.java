@@ -5,13 +5,13 @@ import com.scmoure.csvreader.annotations.CSVObject;
 public class ComplexCSVObject {
 
 	@CSVObject(startingColumn = 0)
-	private DummyClass innerObject;
+	private TestClass innerObject;
 
-	public DummyClass getInnerObject() {
+	public TestClass getInnerObject() {
 		return innerObject;
 	}
 
-	public void setInnerObject(DummyClass innerObject) {
+	public void setInnerObject(TestClass innerObject) {
 		this.innerObject = innerObject;
 	}
 }

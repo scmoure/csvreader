@@ -23,7 +23,10 @@ public class LineMapperFactory {
 			instance = new SingleColumnLineMapper(field.getType(),
 					field.getAnnotation(CSVColumn.class).column());
 		} else if (field.isAnnotationPresent(CSVObject.class)) {
-			instance = new ObjectLineMapper.ObjectLineMapperBuilder(field.getType()).build();
+			int columnOffset = field.getAnnotation(CSVObject.class).startingColumn();
+			instance =
+					new ObjectLineMapper.ObjectLineMapperBuilder(field.getType()).columnOffset(columnOffset)
+							.build();
 		} else if (field.isAnnotationPresent(CSVObjectList.class)) {
 			ParameterizedType paremterizedType = (ParameterizedType) field.getGenericType();
 			Class<?> elementType = (Class<?>) paremterizedType.getActualTypeArguments()[0];

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +38,7 @@ public class CSVReader {
 
 	public List<?> read() throws IOException {
 		this.openFileStream();
-		List<Object> output = fileStream.map(line -> line.split(this.columnDelimiter))
+		List<Object> output = fileStream.map(line -> Arrays.asList(line.split(this.columnDelimiter)))
 				.map(this.lineMapper)
 				.collect(Collectors.toList());
 
@@ -49,7 +50,7 @@ public class CSVReader {
 	public Object readRow() {
 		Object mappedObject = null;
 		if (this.iterator.hasNext()) {
-			mappedObject = this.lineMapper.apply(iterator.next().split(columnDelimiter));
+			mappedObject = this.lineMapper.apply(Arrays.asList(iterator.next().split(columnDelimiter)));
 		} else {
 			this.fileStream.close();
 		}

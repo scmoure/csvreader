@@ -1,5 +1,7 @@
 package com.scmoure.csvreader.mapper.line;
 
+import java.util.List;
+
 import com.scmoure.csvreader.mapper.column.ColumnMapper;
 import com.scmoure.csvreader.mapper.column.ColumnMapperFactory;
 
@@ -14,7 +16,7 @@ class SingleColumnLineMapper implements LineMapper {
 	}
 
 	@Override
-	public Object apply(String[] rawValues) {
-		return this.mapper.apply(rawValues[this.columnIndex]);
+	public Object apply(List<String> rawValues) {
+		return this.mapper.apply(rawValues.get(this.columnIndex));
 	}
 }
