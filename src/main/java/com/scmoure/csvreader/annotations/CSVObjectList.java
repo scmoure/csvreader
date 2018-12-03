@@ -7,12 +7,13 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface CSVObjectList {
+public @interface CSVObjectList
+{
 
-	public int startingColumn() default 0;
+    public int startingColumn() default 0;
 
-	public int endingColumn() default 0;
+    public int endingColumn() default 0;
 
-	public int cycle() default 1;
+    public int cycle() default 1;
 
 }

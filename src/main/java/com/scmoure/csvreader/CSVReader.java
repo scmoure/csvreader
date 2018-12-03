@@ -13,79 +13,88 @@ import java.util.stream.Stream;
 import com.scmoure.csvreader.mapper.line.LineMapper;
 import com.scmoure.csvreader.mapper.line.LineMapperFactory;
 
-public class CSVReader {
+public class CSVReader
+{
 
-	private URI filePath;
+    private URI filePath;
 
-	private LineMapper lineMapper;
+    private LineMapper lineMapper;
 
-	private Stream<String> fileStream;
+    private Stream<String> fileStream;
 
-	private Iterator<String> iterator;
+    private Iterator<String> iterator;
 
-	private String columnDelimiter;
+    private String columnDelimiter;
 
-	private CSVReader(CSVReaderBuilder builder) throws IOException {
-		this.filePath = builder.filePath;
-		this.openFileStream();
-		this.columnDelimiter = builder.columnDelimiter;
-		this.lineMapper = builder.lineMapper;
-	}
+    private CSVReader(CSVReaderBuilder builder) throws IOException
+    {
+        this.filePath = builder.filePath;
+        this.openFileStream();
+        this.columnDelimiter = builder.columnDelimiter;
+        this.lineMapper = builder.lineMapper;
+    }
 
-	private void openFileStream() throws IOException {
-		this.fileStream = Files.lines(Paths.get(this.filePath)).skip(1); // We skip the column headers'
-	}
+    private void openFileStream() throws IOException
+    {
+        this.fileStream = Files.lines(Paths.get(this.filePath)).skip(1); // We skip the column headers'
+    }
 
-	public List<?> read() throws IOException {
-		this.openFileStream();
-		List<Object> output = fileStream.map(line -> Arrays.asList(line.split(this.columnDelimiter)))
-				.map(this.lineMapper)
-				.collect(Collectors.toList());
+    public List<?> read() throws IOException
+    {
+        this.openFileStream();
+        List<Object> output = fileStream.map(line -> Arrays.asList(line.split(this.columnDelimiter)))
+            .map(this.lineMapper).collect(Collectors.toList());
 
-		this.fileStream.close();
+        this.fileStream.close();
 
-		return output;
-	}
+        return output;
+    }
 
-	public Object readRow() {
-		Object mappedObject = null;
-		if (this.iterator.hasNext()) {
-			mappedObject = this.lineMapper.apply(Arrays.asList(iterator.next().split(columnDelimiter)));
-		} else {
-			this.fileStream.close();
-		}
+    public Object readRow()
+    {
+        Object mappedObject = null;
+        if (this.iterator.hasNext()) {
+            mappedObject = this.lineMapper.apply(Arrays.asList(iterator.next().split(columnDelimiter)));
+        } else {
+            this.fileStream.close();
+        }
 
-		return mappedObject;
-	}
+        return mappedObject;
+    }
 
-	public static class CSVReaderBuilder {
-		private static final String DEFAULT_COLUMN_DELIMITER = ";";
+    public static class CSVReaderBuilder
+    {
+        private static final String DEFAULT_COLUMN_DELIMITER = ";";
 
-		private URI filePath;
+        private URI filePath;
 
-		private LineMapper lineMapper;
+        private LineMapper lineMapper;
 
-		private String columnDelimiter;
+        private String columnDelimiter;
 
-		public CSVReaderBuilder(URI filePath, Class<?> targetType) {
-			this.filePath = filePath;
-			this.columnDelimiter = DEFAULT_COLUMN_DELIMITER;
-			this.lineMapper = LineMapperFactory.getInstance(targetType);
-		}
+        public CSVReaderBuilder(URI filePath, Class<?> targetType)
+        {
+            this.filePath = filePath;
+            this.columnDelimiter = DEFAULT_COLUMN_DELIMITER;
+            this.lineMapper = LineMapperFactory.getInstance(targetType);
+        }
 
-		public CSVReaderBuilder withColumnDelimiter(String columnDelimiter) {
-			this.columnDelimiter = columnDelimiter;
-			return this;
-		}
+        public CSVReaderBuilder withColumnDelimiter(String columnDelimiter)
+        {
+            this.columnDelimiter = columnDelimiter;
+            return this;
+        }
 
-		public CSVReaderBuilder withMapper(LineMapper mapper) {
-			this.lineMapper = mapper;
-			return this;
-		}
+        public CSVReaderBuilder withMapper(LineMapper mapper)
+        {
+            this.lineMapper = mapper;
+            return this;
+        }
 
-		public CSVReader build() throws IOException {
-			return new CSVReader(this);
-		}
-	}
+        public CSVReader build() throws IOException
+        {
+            return new CSVReader(this);
+        }
+    }
 
 }

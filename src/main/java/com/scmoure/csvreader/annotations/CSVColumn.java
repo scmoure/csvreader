@@ -6,22 +6,20 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Specifies that the annotated field of a class is mapped with a single column
- * of a CSV file
+ * Specifies that the annotated field of a class is mapped with a single column of a CSV file
  * 
  * @author scmoure
- *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface CSVColumn {
+public @interface CSVColumn
+{
 
-	/**
-	 * The column position (starting at 0) in the CSV file that maps the target
-	 * field
-	 * 
-	 * @return
-	 */
-	public int column() default 0;
+    /**
+     * The column position (starting at 0) in the CSV file that maps the target field
+     * 
+     * @return
+     */
+    public int column() default 0;
 
 }

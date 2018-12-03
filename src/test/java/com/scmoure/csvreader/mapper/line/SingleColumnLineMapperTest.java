@@ -6,29 +6,32 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class SingleColumnLineMapperTest {
+public class SingleColumnLineMapperTest
+{
 
-	@Test
-	public void mapTest() {
+    @Test
+    public void mapTest()
+    {
 
-		SingleColumnLineMapper mapper = new SingleColumnLineMapper(Integer.class, 2);
+        SingleColumnLineMapper mapper = new SingleColumnLineMapper(Integer.class, 2);
 
-		List<String> values = Arrays.asList("1", "2", "3");
+        List<String> values = Arrays.asList("1", "2", "3");
 
-		Integer result = (Integer) mapper.apply(values);
+        Integer result = (Integer) mapper.apply(values);
 
-		Assert.assertEquals("Not the expected result. Expected 3", (Integer) 3, result);
-	}
+        Assert.assertEquals("Not the expected result. Expected 3", (Integer) 3, result);
+    }
 
-	@Test
-	public void mapPrimitiveTest() {
+    @Test
+    public void mapPrimitiveTest()
+    {
 
-		SingleColumnLineMapper mapper = new SingleColumnLineMapper(int.class, 2);
+        SingleColumnLineMapper mapper = new SingleColumnLineMapper(int.class, 2);
 
-		List<String> values = Arrays.asList("1", "2", "3");
+        List<String> values = Arrays.asList("1", "2", "3");
 
-		int result = (int) mapper.apply(values);
+        int result = (int) mapper.apply(values);
 
-		Assert.assertEquals("Not the expected result. Expected 3", 3, result);
-	}
+        Assert.assertEquals("Not the expected result. Expected 3", 3, result);
+    }
 }

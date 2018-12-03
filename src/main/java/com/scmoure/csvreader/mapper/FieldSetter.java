@@ -1,7 +1,8 @@
 package com.scmoure.csvreader.mapper;
 
 @FunctionalInterface
-interface FieldSetter {
+interface FieldSetter
+{
 
-	void invokeSetter(Object o, Object fieldValue);
+    void invokeSetter(Object o, Object fieldValue);
 }

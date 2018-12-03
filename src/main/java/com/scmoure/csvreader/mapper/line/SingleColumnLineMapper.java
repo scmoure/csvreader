@@ -5,23 +5,28 @@ import java.util.List;
 import com.scmoure.csvreader.mapper.column.ColumnMapper;
 import com.scmoure.csvreader.mapper.column.ColumnMapperFactory;
 
-class SingleColumnLineMapper implements LineMapper {
+class SingleColumnLineMapper implements LineMapper
+{
 
-	private ColumnMapper mapper;
-	private Integer columnIndex;
+    private ColumnMapper mapper;
 
-	SingleColumnLineMapper(Class<?> targetClass) {
-		this.mapper = ColumnMapperFactory.getInstance(targetClass);
-		this.columnIndex = 0;
-	}
+    private Integer columnIndex;
 
-	SingleColumnLineMapper(Class<?> targetClass, Integer columnIndex) {
-		this.mapper = ColumnMapperFactory.getInstance(targetClass);
-		this.columnIndex = columnIndex;
-	}
+    SingleColumnLineMapper(Class<?> targetClass)
+    {
+        this.mapper = ColumnMapperFactory.getInstance(targetClass);
+        this.columnIndex = 0;
+    }
 
-	@Override
-	public Object apply(List<String> rawValues) {
-		return this.mapper.apply(rawValues.get(this.columnIndex));
-	}
+    SingleColumnLineMapper(Class<?> targetClass, Integer columnIndex)
+    {
+        this.mapper = ColumnMapperFactory.getInstance(targetClass);
+        this.columnIndex = columnIndex;
+    }
+
+    @Override
+    public Object apply(List<String> rawValues)
+    {
+        return this.mapper.apply(rawValues.get(this.columnIndex));
+    }
 }

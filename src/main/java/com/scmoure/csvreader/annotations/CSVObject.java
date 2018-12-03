@@ -7,10 +7,11 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface CSVObject {
-	public String name() default "";
+public @interface CSVObject
+{
+    public String name() default "";
 
-	public int startingColumn() default 0;
+    public int startingColumn() default 0;
 
-	public int endingColumn() default 0;
+    public int endingColumn() default 0;
 }
