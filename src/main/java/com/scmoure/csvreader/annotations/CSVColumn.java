@@ -16,6 +16,12 @@ public @interface CSVColumn
 {
 
     /**
+     * The colum name in the CSV file that corresponds to this field
+     * @return
+     */
+    public String name() default "";
+    
+    /**
      * The column position (starting at 0) in the CSV file that maps the target field
      * 
      * @return
