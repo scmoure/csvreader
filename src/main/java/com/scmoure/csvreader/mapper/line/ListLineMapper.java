@@ -45,7 +45,7 @@ public class ListLineMapper implements LineMapper
         public ListLineMapperBuilder(Integer startingColumn, Integer endingColumn, Integer cycle, Class<?> targetType)
         {
             this.columnIndexes = new ArrayList<>();
-            int columnIndex = 0;
+            int columnIndex = startingColumn;
             while (columnIndex <= endingColumn) {
                 this.columnIndexes.add(columnIndex);
                 columnIndex += cycle;
