@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import com.scmoure.csvreader.mapper.MapperException;
 
@@ -14,6 +15,8 @@ public class ObjectLineMapper implements LineMapper
 {
 
     private Map<Method, LineMapper> fieldSetterToMapper;
+    
+    Function<List<String>, List<String>> prepare;
 
     private Constructor<?> constructor;
 
@@ -24,12 +27,15 @@ public class ObjectLineMapper implements LineMapper
         this.fieldSetterToMapper = builder.fieldSetterToMapper;
         this.constructor = builder.constructor;
         this.columnOffset = builder.columnOffset;
+        this.prepare = builder.prepare;
     }
 
     @Override
-    public Object apply(List<String> values)
+    public Object apply(List<String> rawValues)
     {
         Object mappedObject = this.getInstance();
+        
+        List<String> values = this.prepare.apply(rawValues);
 
         for (Method fieldSetter : fieldSetterToMapper.keySet()) {
             Object fieldValue =
@@ -76,6 +82,8 @@ public class ObjectLineMapper implements LineMapper
         private static final String SETTER_PREFIX = "set";
 
         private Map<Method, LineMapper> fieldSetterToMapper;
+        
+        private Function<List<String>, List<String>> prepare;
 
         private Constructor<?> constructor;
 
@@ -85,6 +93,7 @@ public class ObjectLineMapper implements LineMapper
         {
             this.columnOffset = 0;
             this.constructor = this.getDefaultConstructor(targetClass);
+            this.prepare = Function.identity();
             this.fieldSetterToMapper = new HashMap<>();
             for (Field field : targetClass.getDeclaredFields()) {
                 LineMapper mapper = LineMapperFactory.getInstance(field);
@@ -129,6 +138,11 @@ public class ObjectLineMapper implements LineMapper
         public ObjectLineMapperBuilder columnOffset(int offset)
         {
             this.columnOffset = offset;
+            return this;
+        }
+        
+        public ObjectLineMapperBuilder prepare(Function<List<String>, List<String>> prepareFunction) {
+            this.prepare = prepareFunction;
             return this;
         }
 
