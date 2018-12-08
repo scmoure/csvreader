@@ -54,6 +54,9 @@ class JavaLangColumnMapper implements ColumnMapper
         if (rawValue == null) {
             return null;
         }
+        if (rawValue.equals("")) {
+            return null;
+        }
 
         Object value = null;
         try {
