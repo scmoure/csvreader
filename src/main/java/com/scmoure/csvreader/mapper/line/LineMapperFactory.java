@@ -42,7 +42,7 @@ public class LineMapperFactory
             ParameterizedType paremterizedType = (ParameterizedType) field.getGenericType();
             Class<?> elementType = (Class<?>) paremterizedType.getActualTypeArguments()[0];
             int startingColumn = field.getAnnotation(CSVObjectList.class).startingColumn();
-            int endingColumn = field.getAnnotation(CSVObjectList.class).startingColumn();
+            int endingColumn = field.getAnnotation(CSVObjectList.class).endingColumn();
             int cycle = field.getAnnotation(CSVObjectList.class).cycle();
             instance =
                 new ListLineMapper.ListLineMapperBuilder(startingColumn, endingColumn, cycle, elementType).build();
